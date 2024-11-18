@@ -1,7 +1,6 @@
 import streamlit as st
 
 # 创建目录
-# 创建目录
 menu = {
     "简介": [
         ("我做这个程序的目的", "教会学生机器学习，以及使用 Streamlit 来做一个自己的机器学习小程序 "),
@@ -45,13 +44,29 @@ with st.sidebar:
     # 展开章节的小标题
     selected_topic = st.radio("选择小标题:", [item[0] for item in menu[selected_section]])
 
-# 根据选择的小标题在主界面展示内容
+# 获取当前章节和小标题
 if selected_section:
     st.title(selected_section)
-    # 获取选中的小标题的内容
-    for title, content in menu[selected_section]:
+    for idx, (title, content) in enumerate(menu[selected_section]):
         if title == selected_topic:
+            # 显示选中的小标题
             st.subheader(title)
             st.write(content)
+            
+            # 设置页号
+            page_number = idx + 1  # 页号从1开始
+            st.write(f"第 {page_number} 页")
+
+    # 翻页功能：显示上一页和下一页按钮
+    if st.button("上一页"):
+        prev_page_idx = (idx - 1) % len(menu[selected_section])
+        selected_topic = menu[selected_section][prev_page_idx][0]  # 更新选中的小标题
+        st.experimental_rerun()  # 重新加载页面
+
+    if st.button("下一页"):
+        next_page_idx = (idx + 1) % len(menu[selected_section])
+        selected_topic = menu[selected_section][next_page_idx][0]  # 更新选中的小标题
+        st.experimental_rerun()  # 重新加载页面
+
 
 
