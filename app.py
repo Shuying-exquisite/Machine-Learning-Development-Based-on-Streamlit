@@ -2,10 +2,10 @@ import streamlit as st
 
 # 创建目录
 menu = {
-    "Streamlit 简介": [
-        ("什么是 Streamlit？", "Streamlit 是一个快速构建 Web 应用的框架，可以通过简单的 Python 代码生成交互式界面。"),
-        ("Streamlit 的基本特点", "Streamlit 提供了丰富的组件，如文本、按钮、图表等，可以方便地进行数据展示和交互。"),
-        ("如何安装和使用 Streamlit", "通过 `pip install streamlit` 安装 Streamlit，使用 `streamlit run` 启动应用。")
+    " 简介": [
+        ("这个程序的目的", "教会学生机器学习，以及使用streamlit来做一个自己的机器学习小程序 "),
+        ("关于我", "我是 Shuying-exquisite，一名热衷于研究机器学习和编程的开发者；我希望通过我的教学，能够让更多人理解机器学习，并能够在各自的领域内应用这些技术。")
+        ("我的 GitHub", "[点击这里访问我的 GitHub](https://github.com/Shuying-exquisite)")
     ],
     "Streamlit 基本组件": [
         ("`st.title()`：标题", "`st.title('标题')` 用来设置网页的主标题。"),
