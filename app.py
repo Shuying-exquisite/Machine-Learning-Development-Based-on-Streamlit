@@ -56,7 +56,7 @@ if selected_section:
             if title == "我的 GitHub":
                 st.markdown(
                     """
-                    <iframe src="https://shuyingydyp.streamlit.app"></iframe>
+                    <iframe src="https://shuyingydyp.streamlit.app/"></iframe>
                     """,
                     unsafe_allow_html=True
                 )
