@@ -11,30 +11,31 @@ slides = [
     {"title": "Slide 3: Conclusion", "content": "Thank you for viewing this presentation!"},
 ]
 
-# 侧边栏增强
-with st.sidebar:
-    st.title("📊 Slide Navigator")
-    # 显示选择器
+# 使用st.columns来模拟两个侧边栏
+col1, col2 = st.columns([1, 3])  # 1: 侧边栏1, 3: 主内容区域
+
+# 侧边栏1 - 页面导航
+with col1:
+    st.title("📊 Navigation")
     page_options = [f"Slide {i+1}" for i in range(len(slides))]
     selected_page = st.radio("Select a Slide:", page_options)
-    
+
     st.write("---")
-    # 添加额外功能，比如跳转按钮
     if st.button("Next Slide") and st.session_state.current_slide < len(slides) - 1:
         st.session_state.current_slide += 1
     if st.button("Previous Slide") and st.session_state.current_slide > 0:
         st.session_state.current_slide -= 1
+
+# 侧边栏2 - 工具或设置
+with col2:
+    st.title("⚙️ Settings")
+    st.write("Here you can adjust the settings or use tools.")
+    setting_option = st.radio("Choose a Tool:", ["Tool 1", "Tool 2", "Tool 3"])
+    st.write(f"You selected {setting_option}.")
     
     st.write("---")
-    # 在侧边栏添加额外内容
-    st.info("💡 **Tips:** Use the buttons or select a slide to navigate.")
-    st.markdown("""
-    **About the Presentation:**
-    - 📘 Covers basics, analysis, and conclusions.
-    - 🖼️ Includes charts and visual aids.
-    - 🎯 Easy to navigate.
-    """)
-
+    st.info("💡 **Tips:** You can switch between tools as needed.")
+    
 # 更新当前页面状态
 st.session_state.current_slide = page_options.index(selected_page)
 
