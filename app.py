@@ -51,6 +51,23 @@ with st.sidebar:
 # 获取当前章节和小标题
 if selected_section:
     st.title(selected_section)
+    
+    # 设置自定义CSS，定位页码到左上角
+    st.markdown("""
+    <style>
+    .page-number {
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 10px;
+        font-size: 20px;
+        font-weight: bold;
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    # 显示选中的小标题内容
     for idx, (title, content) in enumerate(menu[selected_section]):
         if title == selected_topic:
             # 显示选中的小标题
@@ -59,7 +76,7 @@ if selected_section:
             
             # 设置页号
             page_number = idx + 1  # 页号从1开始
-            st.write(f"第 {page_number} 页")
+            st.markdown(f'<div class="page-number">第 {page_number} 页</div>', unsafe_allow_html=True)
 
     # 翻页功能：显示上一页和下一页按钮
     if st.button("上一页"):
