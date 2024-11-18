@@ -1,22 +1,33 @@
 import streamlit as st
 
-# 在 session_state 中初始化显示状态
-if "sidebar_visible" not in st.session_state:
-    st.session_state.sidebar_visible = True
+# 定义幻灯片内容
+slides = [
+    {"title": "Slide 1: Introduction", "content": "Welcome to the first slide! Learn about the basics."},
+    {"title": "Slide 2: Analysis", "content": "Here is some analysis with charts and data."},
+    {"title": "Slide 3: Conclusion", "content": "Thank you for viewing this presentation!"}
+]
 
-# 控制侧边栏显示和隐藏的按钮
-if st.button("Toggle Sidebar"):
-    st.session_state.sidebar_visible = not st.session_state.sidebar_visible
+# 侧边栏显示幻灯片列表
+with st.sidebar:
+    st.title("📑 Slide Navigator")
+    # 显示幻灯片选择器
+    slide_titles = [slide["title"] for slide in slides]
+    selected_slide_title = st.radio("Choose a Slide:", slide_titles)
 
-# 动态渲染侧边栏
-if st.session_state.sidebar_visible:
-    with st.sidebar:
-        st.title("📊 Navigation")
-        selected_slide = st.radio("Choose a slide", ["Slide 1", "Slide 2", "Slide 3"])
-else:
-    st.sidebar.empty()  # 隐藏侧边栏内容
+# 找到当前选择的幻灯片
+selected_slide = None
+for slide in slides:
+    if slide["title"] == selected_slide_title:
+        selected_slide = slide
+        break
 
-# 主内容区域
-st.title(f"Main Content: {selected_slide}")
-st.write(f"This is the content of {selected_slide}.")
+# 主界面显示当前幻灯片
+st.title(selected_slide["title"])
+st.write(selected_slide["content"])
 
+# 可以在主内容区添加更多功能，如图表、数据表等
+if selected_slide["title"] == "Slide 2: Analysis":
+    st.bar_chart({"Category A": [3, 5, 2], "Category B": [6, 7, 8]})
+elif selected_slide["title"] == "Slide 3: Conclusion":
+    st.write("### Summary of Key Findings")
+    st.dataframe({"Feature 1": [1, 2, 3], "Feature 2": [4, 5, 6]})
