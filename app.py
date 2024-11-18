@@ -24,7 +24,7 @@ menu = {
     ],
     "数据展示与可视化": [
         ("使用 `st.line_chart()` 绘制折线图", "通过 `st.line_chart()` 可以非常方便地绘制折线图，展示趋势变化。"),
-        ("使用 `st.bar_chart()` 绘制柱状图", "通过 `st.bar_chart()` 可以绘制柱状图，展示各类数据的比较。"),
+        ("使用 `st.bar_chart()` 绬柱状图", "通过 `st.bar_chart()` 可以绘制柱状图，展示各类数据的比较。"),
         ("使用 `st.map()` 展示地图", "通过 `st.map()` 可以直接在页面中显示地理位置数据，绘制地图。")
     ],
     "高级功能与优化": [
@@ -33,6 +33,10 @@ menu = {
         ("使用 `st.text_area()` 输入多行文本", "通过 `st.text_area()` 可以让用户输入多行文本，适用于较长内容的输入。")
     ]
 }
+
+# 初始化 session_state
+if 'page_idx' not in st.session_state:
+    st.session_state.page_idx = 0  # 默认从第一页开始
 
 # 侧边栏目录
 with st.sidebar:
@@ -59,14 +63,15 @@ if selected_section:
 
     # 翻页功能：显示上一页和下一页按钮
     if st.button("上一页"):
-        prev_page_idx = (idx - 1) % len(menu[selected_section])
-        selected_topic = menu[selected_section][prev_page_idx][0]  # 更新选中的小标题
+        # 修改 session_state 中的页号
+        st.session_state.page_idx = (st.session_state.page_idx - 1) % len(menu[selected_section])
+        selected_topic = menu[selected_section][st.session_state.page_idx][0]  # 更新选中的小标题
         st.experimental_rerun()  # 重新加载页面
 
     if st.button("下一页"):
-        next_page_idx = (idx + 1) % len(menu[selected_section])
-        selected_topic = menu[selected_section][next_page_idx][0]  # 更新选中的小标题
+        # 修改 session_state 中的页号
+        st.session_state.page_idx = (st.session_state.page_idx + 1) % len(menu[selected_section])
+        selected_topic = menu[selected_section][st.session_state.page_idx][0]  # 更新选中的小标题
         st.experimental_rerun()  # 重新加载页面
-
 
 
