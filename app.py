@@ -66,12 +66,8 @@ if selected_section:
         # 修改 session_state 中的页号
         st.session_state.page_idx = (st.session_state.page_idx - 1) % len(menu[selected_section])
         selected_topic = menu[selected_section][st.session_state.page_idx][0]  # 更新选中的小标题
-        st.experimental_rerun()  # 重新加载页面
 
     if st.button("下一页"):
         # 修改 session_state 中的页号
         st.session_state.page_idx = (st.session_state.page_idx + 1) % len(menu[selected_section])
         selected_topic = menu[selected_section][st.session_state.page_idx][0]  # 更新选中的小标题
-        st.experimental_rerun()  # 重新加载页面
-
-
