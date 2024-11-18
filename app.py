@@ -4,7 +4,7 @@ import streamlit as st
 # 创建目录
 menu = {
     "简介": [
-        ("这个程序的目的", "教会学生机器学习，以及使用 Streamlit 来做一个自己的机器学习小程序 "),
+        ("我做这个程序的目的", "教会学生机器学习，以及使用 Streamlit 来做一个自己的机器学习小程序 "),
         ("关于我", "我是 Shuying-exquisite，一名热衷于研究机器学习和编程的开发者；我希望通过我的教学，能够让更多人理解机器学习，并能够在各自的领域内应用这些技术。"),
         ("我的 GitHub", "[点击这里访问我的 GitHub](https://github.com/Shuying-exquisite)")
     ],
