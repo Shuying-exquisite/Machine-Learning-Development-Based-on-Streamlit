@@ -36,7 +36,7 @@ menu = {
 
 # 侧边栏目录
 with st.sidebar:
-    st.title("教学目录")
+    st.title("目录")
     
     # 选择章节
     selected_section = st.selectbox("选择章节:", list(menu.keys()))
