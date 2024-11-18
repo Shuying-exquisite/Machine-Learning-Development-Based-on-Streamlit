@@ -51,14 +51,14 @@ with st.sidebar:
 # 获取当前章节和小标题
 if selected_section:
     st.title(selected_section)
-    
+
     # 设置自定义CSS，定位页码到左上角
     st.markdown("""
     <style>
     .page-number {
         position: absolute;
-        top: 0;
-        left: 0;
+        top: 10px;
+        left: 10px;
         padding: 10px;
         font-size: 20px;
         font-weight: bold;
