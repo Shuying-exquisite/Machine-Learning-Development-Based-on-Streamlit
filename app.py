@@ -5,7 +5,7 @@ menu = {
     "简介": [
         ("我做这个程序的目的", "教会学生机器学习，以及使用 Streamlit 来做一个自己的机器学习小程序 "),
         ("关于我", "我是 Shuying-exquisite，一名热衷于研究机器学习和编程的开发者；我希望通过我的教学，能够让更多人理解机器学习，并能够在各自的领域内应用这些技术。"),
-        ("我的 GitHub", "[点击这里访问我的 GitHub](https://github.com/Shuying-exquisite)")
+        ("我的 GitHub", "点击以下链接访问我的 GitHub 主页。")
     ],
     "第一章：Streamlit 基本组件": [
         ("st.title()：标题", "st.title('标题') 用来设置网页的主标题。"),
@@ -47,8 +47,17 @@ with st.sidebar:
 # 根据选择的小标题在主界面展示内容
 if selected_section:
     st.title(selected_section)
-    # 获取选中的小标题的内容
     for title, content in menu[selected_section]:
         if title == selected_topic:
             st.subheader(title)
             st.write(content)
+            
+            # 内嵌网页示例：在选择 "我的 GitHub" 小标题时，嵌入 GitHub 页面
+            if title == "我的 GitHub":
+                st.markdown(
+                    """
+                    <iframe src="https://github.com/Shuying-exquisite" width="100%" height="600"></iframe>
+                    """,
+                    unsafe_allow_html=True
+                )
+
