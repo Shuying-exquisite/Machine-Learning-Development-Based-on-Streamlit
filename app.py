@@ -56,7 +56,6 @@ if selected_section:
                     total_pages = doc.page_count
 
                     # 允许用户输入页码
-                    st.write(f"PDF 总页数: {total_pages}")
                     page_num = st.number_input("输入页码查看（1 到 {}）".format(total_pages), min_value=1, max_value=total_pages, step=1)
 
                     # 渲染指定页面
