@@ -1,7 +1,8 @@
 import streamlit as st
-import base64
 import os
 import fitz  # PyMuPDF
+from concurrent.futures import ThreadPoolExecutor
+import time
 
 # 创建目录
 menu = {
@@ -52,30 +53,31 @@ if selected_section:
                     # 加载 PDF 文件
                     doc = load_pdf(pdf_file_path)
 
-                    # 设置初始页
-                    page_num = 0
+                    # 显示第一页
+                    def render_page(page_num):
+                        page = doc.load_page(page_num)
+                        # 提高渲染质量，增加渲染分辨率
+                        zoom_x = 2.0  # 水平缩放
+                        zoom_y = 2.0  # 垂直缩放
+                        matrix = fitz.Matrix(zoom_x, zoom_y)
+                        pix = page.get_pixmap(matrix=matrix)  # 使用更高分辨率渲染页面
+                        img_data = pix.tobytes("png")
+                        st.image(img_data)
 
-                    # 显示分页按钮
-                    if st.button("上一页"):
-                        page_num = max(0, page_num - 1)
-                    if st.button("下一页"):
-                        page_num = min(len(doc) - 1, page_num + 1)
+                    # 显示第一页
+                    render_page(0)
 
-                    # 获取当前页的内容
-                    page = doc.load_page(page_num)
+                    # 异步加载剩余页面
+                    def load_remaining_pages(start_page, end_page):
+                        with ThreadPoolExecutor() as executor:
+                            for page_num in range(start_page, end_page):
+                                executor.submit(render_page, page_num)
 
-                    # 提高渲染质量，增加渲染分辨率
-                    zoom_x = 2.0  # 水平缩放
-                    zoom_y = 2.0  # 垂直缩放
-                    matrix = fitz.Matrix(zoom_x, zoom_y)
-                    pix = page.get_pixmap(matrix=matrix)  # 使用更高分辨率渲染页面
-                    img_data = pix.tobytes("png")
-
-                    # 显示图片
-                    st.image(img_data)
-
-                    # 提示用户当前页
-                    st.write(f"当前页：{page_num + 1} / {len(doc)}")
+                    # 加载并渲染剩余页面（从第2页开始）
+                    total_pages = doc.page_count
+                    if total_pages > 1:
+                        st.write(f"共 {total_pages} 页，正在加载后续页面...")
+                        load_remaining_pages(1, total_pages)
 
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
