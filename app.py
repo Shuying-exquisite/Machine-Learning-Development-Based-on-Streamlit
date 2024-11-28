@@ -64,4 +64,18 @@ if selected_section:
                     # 获取当前页的内容
                     page = doc.load_page(page_num)
 
-                    
+                    # 提高渲染质量，增加渲染分辨率
+                    zoom_x = 2.0  # 水平缩放
+                    zoom_y = 2.0  # 垂直缩放
+                    matrix = fitz.Matrix(zoom_x, zoom_y)
+                    pix = page.get_pixmap(matrix=matrix)  # 使用更高分辨率渲染页面
+                    img_data = pix.tobytes("png")
+
+                    # 显示图片
+                    st.image(img_data)
+
+                    # 提示用户当前页
+                    st.write(f"当前页：{page_num + 1} / {len(doc)}")
+
+                else:
+                    st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
