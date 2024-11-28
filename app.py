@@ -58,7 +58,7 @@ if selected_section:
             # 如果选中的小标题是 "机器学习西瓜书"，显示 PDF
             if title == "机器学习西瓜书":
                 # 指定本地 PDF 文件路径
-                pdf_file_path = "/mount/src/machine-learning-development-based-on-streamlit/机器学习西瓜书.pdf"  # 请确保该文件在同一目录下
+                pdf_file_path = "机器学习 Machine Learning (Chinese Edition) (Zhou Zhihua 周志华) .pdf"  # 请确保该文件在同一目录下
                 # 打印当前工作目录和文件路径，检查文件是否存在
                 st.write("当前工作目录:", os.getcwd())
                 st.write("文件路径:", pdf_file_path)
