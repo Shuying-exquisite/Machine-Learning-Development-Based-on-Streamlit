@@ -1,4 +1,5 @@
 import streamlit as st
+import fitz  # PyMuPDF
 
 # 创建目录
 menu = {
@@ -47,9 +48,36 @@ with st.sidebar:
 # 根据选择的小标题在主界面展示内容
 if selected_section:
     st.title(selected_section)
+    
     # 获取选中的小标题的内容
     for title, content in menu[selected_section]:
         if title == selected_topic:
             st.subheader(title)
             st.write(content)
+
+            # 如果选中的小标题是 "机器学习西瓜书"，显示 PDF
+            if title == "机器学习西瓜书":
+                # 指定本地 PDF 文件路径
+                pdf_file_path = "机器学习西瓜书.pdf"  # 请确保该文件在同一目录下
+                
+                # 打开 PDF 文件
+                pdf = fitz.open(pdf_file_path)
+                
+                # 用户选择要查看的页面
+                num_pages = pdf.page_count
+                page_num = st.slider("选择要查看的页面", 0, num_pages - 1, 0)
+                
+                # 加载选定页面
+                page = pdf.load_page(page_num)
+
+                # 获取页面文本内容
+                text = page.get_text()
+                st.write(text)
+
+                # 渲染该页面为图片并显示
+                image = page.get_pixmap()
+                img_path = f"/tmp/page_image_{page_num}.png"
+                image.save(img_path)
+                st.image(img_path, caption=f"PDF 页面 {page_num + 1} 预览", use_column_width=True)
+
 
