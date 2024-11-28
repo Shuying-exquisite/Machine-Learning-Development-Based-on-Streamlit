@@ -55,11 +55,10 @@ if selected_section:
                     # 获取总页数
                     total_pages = doc.page_count
 
-                    # 允许用户输入页码
+                    # 显示 PDF 的第一页
                     st.write(f"PDF 总页数: {total_pages}")
-                    page_num = st.number_input("输入页码查看（1 到 {}）".format(total_pages), min_value=1, max_value=total_pages, step=1)
                     
-                    # 渲染指定页面
+                    # 渲染指定页面的函数
                     def render_page(page_num):
                         page = doc.load_page(page_num - 1)  # 页码从 1 开始，但 PyMuPDF 使用 0-based index
                         # 提高渲染质量，增加渲染分辨率
@@ -70,8 +69,24 @@ if selected_section:
                         img_data = pix.tobytes("png")
                         return img_data
 
-                    # 渲染当前页
-                    current_page_data = render_page(page_num)
+                    # 渲染第一页
+                    current_page_data = render_page(1)
                     st.image(current_page_data)
+
+                    # 页码输入框和跳转按钮放置在页面底部
+                    st.empty()  # 保证页面内容和页码输入框分开
+
+                    # 页码输入框
+                    page_num = st.number_input("输入页码查看（1 到 {}）".format(total_pages), min_value=1, max_value=total_pages, step=1)
+
+                    # 跳转按钮
+                    if st.button('跳转到指定页'):
+                        if 1 <= page_num <= total_pages:
+                            current_page_data = render_page(page_num)
+                            st.image(current_page_data)
+                        else:
+                            st.error("请输入有效的页码！")
+
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
+
