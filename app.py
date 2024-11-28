@@ -72,6 +72,6 @@ if selected_section:
 
                     # 渲染当前页
                     current_page_data = render_page(page_num)
-                    st.image(current_page_data, width=1200)
+                    st.image(current_page_data, width=1000)
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
