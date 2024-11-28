@@ -55,12 +55,13 @@ if selected_section:
                     # 获取总页数
                     total_pages = doc.page_count
 
-                    # 显示 PDF 的第一页
-                    st.write(f"PDF 总页数: {total_pages}")
-                    
-                    # 渲染指定页面的函数
+                    # 选择当前显示的页数
+                    if "page_num" not in st.session_state:
+                        st.session_state.page_num = 0  # 默认从第一页开始
+
+                    # 获取当前页
                     def render_page(page_num):
-                        page = doc.load_page(page_num - 1)  # 页码从 1 开始，但 PyMuPDF 使用 0-based index
+                        page = doc.load_page(page_num)
                         # 提高渲染质量，增加渲染分辨率
                         zoom_x = 2.0  # 水平缩放
                         zoom_y = 2.0  # 垂直缩放
@@ -69,24 +70,27 @@ if selected_section:
                         img_data = pix.tobytes("png")
                         return img_data
 
-                    # 渲染第一页
-                    current_page_data = render_page(1)
+                    # 渲染当前页面
+                    current_page_data = render_page(st.session_state.page_num)
                     st.image(current_page_data)
 
-                    # 页码输入框和跳转按钮放置在页面底部
-                    st.empty()  # 保证页面内容和页码输入框分开
-
-                    # 页码输入框
-                    page_num = st.number_input("输入页码查看（1 到 {}）".format(total_pages), min_value=1, max_value=total_pages, step=1)
-
-                    # 跳转按钮
-                    if st.button('跳转到指定页'):
-                        if 1 <= page_num <= total_pages:
-                            current_page_data = render_page(page_num)
-                            st.image(current_page_data)
+                    # 控制页面的加载
+                    col1, col2 = st.columns([1, 1])
+                    with col1:
+                        # 禁用按钮在第一页时
+                        if st.session_state.page_num > 0:
+                            if st.button("上一页"):
+                                st.session_state.page_num -= 1
                         else:
-                            st.error("请输入有效的页码！")
+                            st.button("上一页", disabled=True)
+                    
+                    with col2:
+                        # 禁用按钮在最后一页时
+                        if st.session_state.page_num < total_pages - 1:
+                            if st.button("下一页"):
+                                st.session_state.page_num += 1
+                        else:
+                            st.button("下一页", disabled=True)
 
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
-
