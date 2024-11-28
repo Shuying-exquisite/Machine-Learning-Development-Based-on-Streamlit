@@ -57,7 +57,7 @@ if selected_section:
 
                     # 允许用户输入页码
                     st.write(f"PDF 总页数: {total_pages}")
-                    page_num = 1
+                    page_num = st.number_input("输入页码查看（1 到 {}）".format(total_pages), min_value=1, max_value=total_pages, step=1)
                     
                     # 渲染指定页面
                     def render_page(page_num):
@@ -73,6 +73,5 @@ if selected_section:
                     # 渲染当前页
                     current_page_data = render_page(page_num)
                     st.image(current_page_data)
-                    page_num = st.number_input("输入页码查看（1 到 {}）".format(total_pages), min_value=1, max_value=total_pages, step=1)
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
