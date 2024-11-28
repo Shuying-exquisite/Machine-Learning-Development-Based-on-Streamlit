@@ -1,6 +1,7 @@
 import streamlit as st
 import base64
 import os
+import time  # 用于模拟加载延迟，实际开发中可以去掉
 
 # 创建目录
 menu = {
@@ -58,22 +59,25 @@ if selected_section:
             # 如果选择了 "机器学习西瓜书"，则提供 PDF 查看功能
             if title == "机器学习西瓜书":
                 # 假设 PDF 文件在同一个文件夹中
-                pdf_file_path = "机器学习 Machine Learning (Chinese Edition) (Zhou Zhihua 周志华) .pdf"
+                pdf_file_path = "机器学习 Machine Learning (Chinese Edition) (Zhou Zhihua 周志华) .pdf"  # 请确保文件名与实际文件匹配
 
                 if os.path.exists(pdf_file_path):
-                    # 将 PDF 文件转换为 base64 编码
-                    with open(pdf_file_path, "rb") as pdf_file:
-                        pdf_data = pdf_file.read()
-                    pdf_base64 = base64.b64encode(pdf_data).decode("utf-8")
+                    # 显示加载提示
+                    with st.spinner('正在加载 PDF，请稍等...'):
+                        time.sleep(2)  # 用于模拟加载延迟，实际开发中可以去掉这个延迟
 
-                    # 创建嵌入的 PDF URL
-                    pdf_url = f"data:application/pdf;base64,{pdf_base64}"
+                        # 将 PDF 文件转换为 base64 编码
+                        with open(pdf_file_path, "rb") as pdf_file:
+                            pdf_data = pdf_file.read()
+                        pdf_base64 = base64.b64encode(pdf_data).decode("utf-8")
 
-                    # 使用 iframe 嵌入 PDF 文件
-                    st.markdown(f"""
-                        <iframe src="{pdf_url}" width="700" height="800" type="application/pdf"></iframe>
-                    """, unsafe_allow_html=True)
+                        # 创建嵌入的 PDF URL
+                        pdf_url = f"data:application/pdf;base64,{pdf_base64}"
+
+                        # 使用 iframe 嵌入 PDF 文件
+                        st.markdown(f"""
+                            <iframe src="{pdf_url}" width="700" height="800" type="application/pdf"></iframe>
+                        """, unsafe_allow_html=True)
+
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
-
-
