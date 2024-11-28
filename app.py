@@ -63,8 +63,8 @@ if selected_section:
                     def render_page(page_num):
                         page = doc.load_page(page_num - 1)  # 页码从 1 开始，但 PyMuPDF 使用 0-based index
                         # 提高渲染质量，增加渲染分辨率
-                        zoom_x = 3.0  # 水平缩放
-                        zoom_y = 3.0  # 垂直缩放
+                        zoom_x = 4.0  # 水平缩放
+                        zoom_y = 4.0  # 垂直缩放
                         matrix = fitz.Matrix(zoom_x, zoom_y)
                         pix = page.get_pixmap(matrix=matrix)  # 使用更高分辨率渲染页面
                         img_data = pix.tobytes("png")
