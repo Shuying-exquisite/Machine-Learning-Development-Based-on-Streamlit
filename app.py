@@ -58,7 +58,7 @@ if selected_section:
             # 如果选择了 "机器学习西瓜书"，则提供 PDF 查看功能
             if title == "机器学习西瓜书":
                 # 假设 PDF 文件在同一个文件夹中
-                pdf_file_path = "西瓜书.pdf"  # 请将 PDF 文件名替换为实际文件名
+                pdf_file_path = "机器学习 Machine Learning (Chinese Edition) (Zhou Zhihua 周志华) .pdf"
 
                 if os.path.exists(pdf_file_path):
                     # 将 PDF 文件转换为 base64 编码
