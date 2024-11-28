@@ -64,15 +64,4 @@ if selected_section:
                     # 获取当前页的内容
                     page = doc.load_page(page_num)
 
-                    # 将页面转换为图片（仅当前页）
-                    pix = page.get_pixmap()
-                    img_data = pix.tobytes("png")
-
-                    # 显示图片
-                    st.image(img_data)
-
-                    # 提示用户当前页
-                    st.write(f"当前页：{page_num + 1} / {len(doc)}")
-
-                else:
-                    st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
+                    
