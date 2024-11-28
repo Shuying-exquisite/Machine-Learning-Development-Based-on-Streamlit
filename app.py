@@ -1,8 +1,7 @@
 import streamlit as st
 import os
 import fitz  # PyMuPDF
-from concurrent.futures import ThreadPoolExecutor
-import time
+from io import BytesIO
 
 # 创建目录
 menu = {
@@ -53,7 +52,14 @@ if selected_section:
                     # 加载 PDF 文件
                     doc = load_pdf(pdf_file_path)
 
-                    # 显示第一页
+                    # 获取总页数
+                    total_pages = doc.page_count
+
+                    # 选择当前显示的页数
+                    if "page_num" not in st.session_state:
+                        st.session_state.page_num = 0  # 默认从第一页开始
+
+                    # 获取当前页
                     def render_page(page_num):
                         page = doc.load_page(page_num)
                         # 提高渲染质量，增加渲染分辨率
@@ -62,22 +68,21 @@ if selected_section:
                         matrix = fitz.Matrix(zoom_x, zoom_y)
                         pix = page.get_pixmap(matrix=matrix)  # 使用更高分辨率渲染页面
                         img_data = pix.tobytes("png")
-                        st.image(img_data)
+                        return img_data
 
-                    # 显示第一页
-                    render_page(0)
+                    # 渲染当前页面
+                    current_page_data = render_page(st.session_state.page_num)
+                    st.image(current_page_data)
 
-                    # 异步加载剩余页面
-                    def load_remaining_pages(start_page, end_page):
-                        with ThreadPoolExecutor() as executor:
-                            for page_num in range(start_page, end_page):
-                                executor.submit(render_page, page_num)
-
-                    # 加载并渲染剩余页面（从第2页开始）
-                    total_pages = doc.page_count
-                    if total_pages > 1:
-                        st.write(f"共 {total_pages} 页，正在加载后续页面...")
-                        load_remaining_pages(1, total_pages)
+                    # 控制页面的加载
+                    col1, col2 = st.columns([1, 1])
+                    with col1:
+                        if st.button("上一页") and st.session_state.page_num > 0:
+                            st.session_state.page_num -= 1
+                    with col2:
+                        if st.button("下一页") and st.session_state.page_num < total_pages - 1:
+                            st.session_state.page_num += 1
 
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
+
