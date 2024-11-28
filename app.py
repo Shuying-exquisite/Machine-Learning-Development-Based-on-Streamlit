@@ -1,7 +1,6 @@
 import streamlit as st
 import base64
 import os
-import time  # 用于模拟加载延迟，实际开发中可以去掉
 
 # 创建目录
 menu = {
@@ -64,7 +63,6 @@ if selected_section:
                 if os.path.exists(pdf_file_path):
                     # 显示加载提示
                     with st.spinner('正在加载 PDF，请稍等...'):
-                        time.sleep(2)  # 用于模拟加载延迟，实际开发中可以去掉这个延迟
 
                         # 将 PDF 文件转换为 base64 编码
                         with open(pdf_file_path, "rb") as pdf_file:
