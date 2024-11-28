@@ -57,7 +57,7 @@ if selected_section:
                     total_pages = doc.page_count
 
                     # 允许用户输入页码
-                    page_num = st.number_input("输入页码查看（1 到 10）, min_value=1, max_value=10, step=1)
+                    page_num = st.number_input("输入页码查看（1 到 10）", min_value=1, max_value=10, step=1)
 
                     # 渲染指定页面
                     def render_page(page_num):
