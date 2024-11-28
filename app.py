@@ -55,13 +55,13 @@ if selected_section:
                     # 获取总页数
                     total_pages = doc.page_count
 
-                    # 选择当前显示的页数
-                    if "page_num" not in st.session_state:
-                        st.session_state.page_num = 0  # 默认从第一页开始
+                    # 允许用户输入页码
+                    st.write(f"PDF 总页数: {total_pages}")
+                    page_num = st.number_input("输入页码查看（1 到 {}）".format(total_pages), min_value=1, max_value=total_pages, step=1)
 
-                    # 获取当前页
+                    # 渲染指定页面
                     def render_page(page_num):
-                        page = doc.load_page(page_num)
+                        page = doc.load_page(page_num - 1)  # 页码从 1 开始，但 PyMuPDF 使用 0-based index
                         # 提高渲染质量，增加渲染分辨率
                         zoom_x = 2.0  # 水平缩放
                         zoom_y = 2.0  # 垂直缩放
@@ -70,19 +70,9 @@ if selected_section:
                         img_data = pix.tobytes("png")
                         return img_data
 
-                    # 渲染当前页面
-                    current_page_data = render_page(st.session_state.page_num)
+                    # 渲染当前页
+                    current_page_data = render_page(page_num)
                     st.image(current_page_data)
-
-                    # 控制页面的加载
-                    col1, col2 = st.columns([1, 1])
-                    with col1:
-                        if st.button("上一页") and st.session_state.page_num > 0:
-                            st.session_state.page_num -= 1
-                    with col2:
-                        if st.button("下一页") and st.session_state.page_num < total_pages - 1:
-                            st.session_state.page_num += 1
 
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
-
