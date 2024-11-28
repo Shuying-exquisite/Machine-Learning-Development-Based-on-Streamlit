@@ -70,8 +70,11 @@ if selected_section:
                         img_data = pix.tobytes("png")
                         return img_data
 
-                    # 渲染当前页
-                    current_page_data = render_page(page_num)
-                    st.image(current_page_data, width=2000)
+                    # 使用容器显示图像
+                    with st.container():  # 添加容器来放置图像
+                        # 渲染当前页
+                        current_page_data = render_page(page_num)
+                        st.image(current_page_data, use_column_width=True)  # 图像自适应容器宽度
+
                 else:
                     st.error("找不到 PDF 文件，请确保文件存在并且路径正确。")
