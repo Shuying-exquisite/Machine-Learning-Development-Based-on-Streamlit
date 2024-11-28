@@ -11,7 +11,8 @@ menu = {
         ("我的 GitHub", "[点击这里访问我的 GitHub](https://github.com/Shuying-exquisite)"),
     ],
     "第一章：机器学习基础": [
-        ("机器学习西瓜书", "机器学习基础部分具体参考周老师的西瓜书。"),
+        ("基础部分介绍", "机器学习基础部分具体参考周老师的西瓜书。"),
+        ("机器学习西瓜书简介"),
         ("st.write()：文本输出", "st.write() 是一个万能的输出函数，可以输出文本、表格、图形等。"),
         ("st.button()：按钮", "st.button('按钮') 创建一个按钮组件，用户点击后触发事件。"),
     ]
@@ -37,7 +38,7 @@ if selected_section:
             st.write(content)
 
             # 如果选择了 "机器学习西瓜书"，则提供 PDF 查看功能
-            if title == "机器学习西瓜书":
+            if title == "机器学习西瓜书简介":
                 # 假设 PDF 文件在同一个文件夹中
                 pdf_file_path = "机器学习 Machine Learning (Chinese Edition) (Zhou Zhihua 周志华) .pdf"  # 请确保文件名与实际文件匹配
 
@@ -56,7 +57,7 @@ if selected_section:
                     total_pages = doc.page_count
 
                     # 允许用户输入页码
-                    page_num = st.number_input("输入页码查看（1 到 {}）".format(total_pages), min_value=1, max_value=total_pages, step=1)
+                    page_num = st.number_input("输入页码查看（1 到 10）, min_value=1, max_value=10, step=1)
 
                     # 渲染指定页面
                     def render_page(page_num):
