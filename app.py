@@ -1,6 +1,6 @@
 import streamlit as st
 import fitz  # PyMuPDF
-
+import os
 # 创建目录
 menu = {
     "简介": [
@@ -59,6 +59,14 @@ if selected_section:
             if title == "机器学习西瓜书":
                 # 指定本地 PDF 文件路径
                 pdf_file_path = "机器学习西瓜书.pdf"  # 请确保该文件在同一目录下
+                # 打印当前工作目录和文件路径，检查文件是否存在
+                st.write("当前工作目录:", os.getcwd())
+                st.write("文件路径:", pdf_file_path)
+
+                if os.path.exists(pdf_file_path):
+                    pdf = fitz.open(pdf_file_path)
+                else:
+                    st.error("PDF 文件未找到，请检查文件路径！")
                 
                 # 打开 PDF 文件
                 pdf = fitz.open(pdf_file_path)
